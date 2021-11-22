@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 class Title(models.Model):
+    id = models.AutoField(primary_key=True)
     title_text = models.CharField(max_length=100)
     pub_date = models.DateTimeField('date published')
     
