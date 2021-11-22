@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
-from .models import Title
+from .models import Description, Title
 
 def index(request):
     latest_blog_post_list = Title.objects.order_by('-pub_date')[:10]
@@ -37,12 +37,12 @@ def add(request):
     return render(request, 'blog/add.html', {})
 
 def addpost(request):
-    # new_post = Title.objects.create(pk=len(Title.objects.all()) + 1)
-    # post = get_object_or_404(Title, pk=new_post.id)
-    # new_post.pub_date = timezone.now()
-    # new_post.title_text = request.POST['new_title']
-    # new_post.save()
-    # description = post.description_set.get(pk=new_post.id)
-    # description.description_text = request.POST['post-description']
-    # description.save()
+    new_post = Title.objects.create()
+    post = get_object_or_404(Title, pk=new_post.id)
+    new_post.pub_date = timezone.now()
+    new_post.title_text = request.POST['new_title']
+    new_post.save()
+    description = Description.objects.create(title_id=new_post.id)
+    description.description_text = request.POST['post-description']
+    description.save()
     return HttpResponseRedirect(reverse('index'))
