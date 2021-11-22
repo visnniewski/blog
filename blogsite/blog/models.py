@@ -4,8 +4,9 @@ from django.db import models
 from django.utils import timezone
 
 class Title(models.Model):
+    id = models.AutoField(primary_key=True)
     title_text = models.CharField(max_length=100)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date_published', auto_now_add=True)
     
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
